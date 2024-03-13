@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name_full">Podstawowy rejestrator rozmów</string>
+    <string name="app_name_full">Rejestrator rozmów</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">Ogólne</string>

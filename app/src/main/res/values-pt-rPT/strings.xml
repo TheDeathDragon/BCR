@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name_full">Gravador de Chamadas</string>
+    <string name="app_name_full">De Chamadas</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">Geral</string>

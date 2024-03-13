@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         app:title="@string/pref_header_general"
         app:iconSpaceReserved="false">
@@ -16,7 +17,7 @@
             app:summary="@string/pref_record_rules_desc"
             app:iconSpaceReserved="false" />
 
-        <com.chiller3.bcr.view.LongClickablePreference
+        <la.shiro.call.recorder.view.LongClickablePreference
             app:key="output_dir"
             app:persistent="false"
             app:title="@string/pref_output_dir_name"
@@ -38,6 +39,7 @@
 
         <SwitchPreferenceCompat
             app:key="write_metadata"
+            app:isPreferenceVisible="false"
             app:title="@string/pref_write_metadata_name"
             app:summary="@string/pref_write_metadata_desc"
             app:iconSpaceReserved="false" />
@@ -45,9 +47,10 @@
 
     <PreferenceCategory
         app:title="@string/pref_header_about"
+        app:isPreferenceVisible="false"
         app:iconSpaceReserved="false">
 
-        <com.chiller3.bcr.view.LongClickablePreference
+        <la.shiro.call.recorder.view.LongClickablePreference
             app:key="version"
             app:persistent="false"
             app:title="@string/pref_version_name"

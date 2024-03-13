@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name_full">Základný nahrávač hovorov</string>
+    <string name="app_name_full">nahrávač hovorov</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">Všeobecné</string>

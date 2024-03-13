@@ -31,6 +31,6 @@
 }
 
 # Keep standalone CLI utilities
--keep class com.chiller3.bcr.standalone.* {
+-keep class la.shiro.call.recorder.standalone.* {
     *;
 }

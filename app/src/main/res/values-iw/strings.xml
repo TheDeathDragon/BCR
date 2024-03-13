@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name_full">מקליט שיחות בסיסי</string>
+    <string name="app_name_full">מקליט שיחות</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">כללי</string>

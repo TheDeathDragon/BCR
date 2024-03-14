@@ -5,13 +5,17 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.google.android.material.snackbar.Snackbar
 import la.shiro.call.recorder.BuildConfig
 import la.shiro.call.recorder.Permissions
 import la.shiro.call.recorder.Preferences
+import la.shiro.call.recorder.Preferences.Companion.PREF_CALL_RECORDING
 import la.shiro.call.recorder.R
 import la.shiro.call.recorder.extension.formattedString
 import la.shiro.call.recorder.format.Format
@@ -21,7 +25,6 @@ import la.shiro.call.recorder.output.Retention
 import la.shiro.call.recorder.rule.RecordRulesActivity
 import la.shiro.call.recorder.view.LongClickablePreference
 import la.shiro.call.recorder.view.OnPreferenceLongClickListener
-import com.google.android.material.snackbar.Snackbar
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener,
     Preference.OnPreferenceClickListener, OnPreferenceLongClickListener,
@@ -148,10 +151,12 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 // Ask for optional permissions the first time only
                 requestPermissionRequired.launch(Permissions.REQUIRED + Permissions.OPTIONAL)
             }
+
             prefInhibitBatteryOpt -> {
                 if (newValue == true) {
                     requestInhibitBatteryOpt.launch(
-                        Permissions.getInhibitBatteryOptIntent(requireContext()))
+                        Permissions.getInhibitBatteryOptIntent(requireContext())
+                    )
                 } else {
                     startActivity(Permissions.getBatteryOptSettingsIntent())
                 }
@@ -167,18 +172,21 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 startActivity(Intent(requireContext(), RecordRulesActivity::class.java))
                 return true
             }
+
             prefOutputDir -> {
                 OutputDirectoryBottomSheetFragment().show(
                     childFragmentManager, OutputDirectoryBottomSheetFragment.TAG
                 )
                 return true
             }
+
             prefOutputFormat -> {
                 OutputFormatBottomSheetFragment().show(
                     childFragmentManager, OutputFormatBottomSheetFragment.TAG
                 )
                 return true
             }
+
             prefVersion -> {
                 val uri = Uri.parse(BuildConfig.PROJECT_URL_AT_COMMIT)
                 startActivity(Intent(Intent.ACTION_VIEW, uri))
@@ -203,6 +211,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 }
                 return true
             }
+
             prefVersion -> {
                 prefs.isDebugMode = !prefs.isDebugMode
                 refreshVersion()
@@ -224,6 +233,12 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 if (current != expected) {
                     prefCallRecording.isChecked = expected
                 }
+                Log.d("Rin", "onSharedPreferenceChanged: $key, $expected")
+                Settings.System.putInt(
+                    requireContext().contentResolver,
+                    PREF_CALL_RECORDING,
+                    if (expected) 1 else 0
+                )
             }
             // Update the output directory state when it's changed by the bottom sheet
             key == Preferences.PREF_OUTPUT_DIR || key == Preferences.PREF_OUTPUT_RETENTION -> {

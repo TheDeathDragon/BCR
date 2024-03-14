@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
+import android.provider.Settings
 import android.util.Log
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
@@ -208,8 +209,10 @@ class Preferences(private val context: Context) {
         get() = getOptionalUint(PREF_OUTPUT_RETENTION, UInt.MAX_VALUE)?.let {
             Retention.fromRawPreferenceValue(it)
         }
-        set(retention) = setOptionalUint(PREF_OUTPUT_RETENTION, UInt.MAX_VALUE,
-            retention?.toRawPreferenceValue())
+        set(retention) = setOptionalUint(
+            PREF_OUTPUT_RETENTION, UInt.MAX_VALUE,
+            retention?.toRawPreferenceValue()
+        )
 
     /**
      * Whether call recording is enabled.

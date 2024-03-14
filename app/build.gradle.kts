@@ -113,7 +113,7 @@ android {
     applicationVariants.all {
         outputs.all {
             if (this is ApkVariantOutputImpl) {
-                outputFileName = "CallRecorder.apk"
+                outputFileName = "JzhkCallRecorder.apk"
             }
         }
     }

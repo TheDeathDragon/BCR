@@ -19,7 +19,8 @@ object Permissions {
             arrayOf()
         }
 
-    val REQUIRED: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO) + NOTIFICATION
+    val REQUIRED: Array<String> =
+        arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_SETTINGS) + NOTIFICATION
     val OPTIONAL: Array<String> = arrayOf(
         Manifest.permission.READ_CALL_LOG,
         Manifest.permission.READ_CONTACTS,
@@ -29,10 +30,9 @@ object Permissions {
     /**
      * Check if all permissions required for call recording have been granted.
      */
-    fun haveRequired(context: Context): Boolean =
-        REQUIRED.all {
-            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
-        }
+    fun haveRequired(context: Context): Boolean = REQUIRED.all {
+        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+    }
 
     /**
      * Check if battery optimizations are currently disabled for this app.

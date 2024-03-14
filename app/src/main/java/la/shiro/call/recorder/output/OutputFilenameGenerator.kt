@@ -307,7 +307,7 @@ class OutputFilenameGenerator(
             .appendValue(ChronoField.HOUR_OF_DAY, 2)
             .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
             .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
-            .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
+//            .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
             .appendOffset("+HHMMss", "+0000")
             .toFormatter()
 

@@ -6,6 +6,10 @@
     <uses-permission
         android:name="android.permission.CAPTURE_AUDIO_OUTPUT"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
     <!--
          This system app permission is required to allow the telephony service to bind to this app's
          InCallService without this app being a wearable companion app or the default dialer. This
@@ -30,11 +34,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
         android:memtagMode="sync"
+        android:persistent="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BCR"
-        android:localeConfig="@xml/locales_config"
         tools:ignore="UnusedAttribute">
 
         <service
@@ -59,20 +64,19 @@
             android:icon="@drawable/ic_launcher_quick_settings"
             android:label="@string/quick_settings_label"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-        <meta-data
-            android:name="android.service.quicksettings.TOGGLEABLE_TILE"
-            android:value="true" />
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
 
         <provider
-            android:authorities="@string/provider_authority"
             android:name=".RecorderProvider"
+            android:authorities="@string/provider_authority"
             android:exported="false"
-            android:grantUriPermissions="true">
-        </provider>
+            android:grantUriPermissions="true" />
 
         <activity
             android:name=".settings.SettingsActivity"

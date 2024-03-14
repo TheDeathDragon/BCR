@@ -1,13 +1,16 @@
 package la.shiro.call.recorder
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
+import android.provider.Settings
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
 import androidx.preference.PreferenceManager
+import la.shiro.call.recorder.Preferences.Companion.PREF_CALL_RECORDING
 import la.shiro.call.recorder.settings.SettingsActivity
 
 class RecorderTileService : TileService(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -33,6 +36,7 @@ class RecorderTileService : TileService(), SharedPreferences.OnSharedPreferenceC
         prefs.unregisterOnSharedPreferenceChangeListener(this)
     }
 
+    @SuppressLint("StartActivityAndCollapseDeprecated")
     override fun onClick() {
         super.onClick()
 
@@ -49,7 +53,18 @@ class RecorderTileService : TileService(), SharedPreferences.OnSharedPreferenceC
                 startActivityAndCollapse(intent)
             }
         } else {
-            prefs.isCallRecordingEnabled = !prefs.isCallRecordingEnabled
+            val isCallRecordingEnabled = Settings.System.getInt(
+                contentResolver,
+                PREF_CALL_RECORDING,
+                0
+            ) == 1
+            if (isCallRecordingEnabled) {
+                Settings.System.putInt(contentResolver, PREF_CALL_RECORDING, 0)
+                prefs.isCallRecordingEnabled = false
+            } else {
+                Settings.System.putInt(contentResolver, PREF_CALL_RECORDING, 1)
+                prefs.isCallRecordingEnabled = true
+            }
         }
 
         refreshTileState()
@@ -69,7 +84,12 @@ class RecorderTileService : TileService(), SharedPreferences.OnSharedPreferenceC
         // Tile.STATE_UNAVAILABLE is intentionally not used when permissions haven't been granted.
         // Clicking the tile in that state does not invoke the click handler, so it wouldn't be
         // possible to launch SettingsActivity to grant the permissions.
-        if (Permissions.haveRequired(this) && prefs.isCallRecordingEnabled) {
+        val isCallRecordingEnabled = Settings.System.getInt(
+            contentResolver,
+            PREF_CALL_RECORDING,
+            0
+        ) == 1
+        if (Permissions.haveRequired(this) && isCallRecordingEnabled) {
             tile.state = Tile.STATE_ACTIVE
         } else {
             tile.state = Tile.STATE_INACTIVE

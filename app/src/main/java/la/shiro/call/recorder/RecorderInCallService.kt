@@ -6,11 +6,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.telecom.Call
 import android.telecom.InCallService
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import la.shiro.call.recorder.Preferences.Companion.PREF_CALL_RECORDING
 import la.shiro.call.recorder.output.OutputFile
 import kotlin.random.Random
 
@@ -140,10 +142,12 @@ class RecorderInCallService : InCallService(), RecorderThread.OnRecordingComplet
                 ACTION_PAUSE, ACTION_RESUME -> {
                     notificationIdsToRecorders[notificationId]?.isPaused = action == ACTION_PAUSE
                 }
+
                 ACTION_RESTORE, ACTION_DELETE -> {
                     notificationIdsToRecorders[notificationId]?.keepRecording =
                         action == ACTION_RESTORE
                 }
+
                 else -> throw IllegalArgumentException("Invalid action: $action")
             }
         } catch (e: Exception) {
@@ -229,11 +233,18 @@ class RecorderInCallService : InCallService(), RecorderThread.OnRecordingComplet
      * This function is idempotent.
      */
     private fun startRecording(call: Call) {
-        if (!prefs.isCallRecordingEnabled) {
+        val isCallRecordingEnabled = Settings.System.getInt(
+            contentResolver,
+            PREF_CALL_RECORDING,
+            0
+        ) == 1
+        if (!isCallRecordingEnabled) {
             Log.v(TAG, "Call recording is disabled")
+            prefs.isCallRecordingEnabled = false
         } else if (!Permissions.haveRequired(this)) {
             Log.v(TAG, "Required permissions have not been granted")
         } else if (!callsToRecorders.containsKey(call)) {
+            prefs.isCallRecordingEnabled = true
             val recorder = try {
                 RecorderThread(this, this, call)
             } catch (e: Exception) {
@@ -338,6 +349,7 @@ class RecorderInCallService : InCallService(), RecorderThread.OnRecordingComplet
                         titleResId = R.string.notification_recording_initializing
                         canShowDelete = true
                     }
+
                     RecorderThread.State.RECORDING -> {
                         if (recorder.isHolding) {
                             titleResId = R.string.notification_recording_on_hold
@@ -353,6 +365,7 @@ class RecorderInCallService : InCallService(), RecorderThread.OnRecordingComplet
                         }
                         canShowDelete = true
                     }
+
                     RecorderThread.State.FINALIZING, RecorderThread.State.COMPLETED -> {
                         titleResId = R.string.notification_recording_finalizing
                         canShowDelete = false

@@ -7,6 +7,7 @@
         <SwitchPreferenceCompat
             app:key="call_recording"
             app:title="@string/pref_call_recording_name"
+            app:isPreferenceVisible="false"
             app:summary="@string/pref_call_recording_desc"
             app:iconSpaceReserved="false" />
 
@@ -33,6 +34,7 @@
 
         <SwitchPreferenceCompat
             app:key="inhibit_batt_opt"
+            app:isPreferenceVisible="false"
             app:title="@string/pref_inhibit_batt_opt_name"
             app:summary="@string/pref_inhibit_batt_opt_desc"
             app:iconSpaceReserved="false" />

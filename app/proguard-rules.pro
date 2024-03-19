@@ -18,7 +18,7 @@
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
--renamesourcefileattribute SourceFile
+# -renamesourcefileattribute SourceFile
 
 # Disable obfuscation completely for BCR. As an open source project,
 # shrinking is the only goal of minification.
@@ -32,5 +32,9 @@
 
 # Keep standalone CLI utilities
 -keep class la.shiro.call.recorder.standalone.* {
+    *;
+}
+
+-keep class la.shiro.call.recorder.view.* {
     *;
 }

@@ -22,8 +22,8 @@ android {
         applicationId = "la.shiro.call.recorder"
         minSdk = 28
         targetSdk = 34
-        versionCode = 340000
-        versionName = "3.4.0"
+        versionCode = 340001
+        versionName = "3.4.1"
         resourceConfigurations.addAll(listOf(
             "de",
             "en",

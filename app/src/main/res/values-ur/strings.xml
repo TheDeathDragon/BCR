@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">کال ریکارڈر</string>
+    <string name="app_name">"خود کار کال ریکارڈر"</string>
     <string name="app_name_full">کال ریکارڈر</string>
     <string name="pref_header_general">جنرل</string>
     <string name="pref_header_about">کے بارے میں</string>

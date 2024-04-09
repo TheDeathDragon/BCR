@@ -28,6 +28,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:name=".RecorderApplication"
@@ -45,7 +49,6 @@
         <service
             android:name=".NotificationActionService"
             android:exported="false" />
-
         <service
             android:name=".RecorderInCallService"
             android:enabled="true"
@@ -56,7 +59,6 @@
                 <action android:name="android.telecom.InCallService" />
             </intent-filter>
         </service>
-
         <service
             android:name=".RecorderTileService"
             android:enabled="true"
@@ -67,6 +69,7 @@
             <meta-data
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
+
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
@@ -81,17 +84,17 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:autoRemoveFromRecents="true"
-            android:launchMode="singleInstance"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
             </intent-filter>
         </activity>
-
         <activity
             android:name=".rule.RecordRulesActivity"
             android:exported="false" />
     </application>
+
 </manifest>

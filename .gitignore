@@ -8,3 +8,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/release/baselineProfiles/0/JzhkCallRecorder.dm
+/app/release/baselineProfiles/1/JzhkCallRecorder.dm

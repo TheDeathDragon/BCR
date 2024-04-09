@@ -106,11 +106,11 @@ def main():
 
         subprocess.check_call(
             [
-                './gradlew' + ('.bat' if os.name == 'nt' else ''),
+                '.\\gradlew' + ('.bat' if os.name == 'nt' else ''),
                 '--write-verification-metadata', 'sha512',
                 '--no-daemon',
                 'build',
-                'zipDebug',
+                'zipApksForDebug',
                 # Requires signing.
                 '-x', 'assembleRelease',
             ],

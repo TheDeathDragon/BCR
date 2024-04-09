@@ -22,8 +22,8 @@ android {
         applicationId = "la.shiro.call.recorder"
         minSdk = 28
         targetSdk = 34
-        versionCode = 340001
-        versionName = "3.4.1"
+        versionCode = 340002
+        versionName = "3.4.2"
         resourceConfigurations.addAll(listOf(
             "de",
             "en",
@@ -129,4 +129,5 @@ dependencies {
     implementation(libs.androidx.preference.ktx)
     implementation(libs.material)
     implementation(libs.kudzu)
+    implementation(libs.activity)
 }

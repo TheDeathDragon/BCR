@@ -18,7 +18,7 @@
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
--renamesourcefileattribute SourceFile
+# -renamesourcefileattribute SourceFile
 
 # Disable obfuscation completely for BCR. As an open source project,
 # shrinking is the only goal of minification.
@@ -36,6 +36,18 @@
 }
 
 -keep class la.shiro.call.recorder.view.* {
+    *;
+}
+
+-keep class la.shiro.call.recorder.format.MediaCodecEncoder {
+    *;
+}
+
+-keep class la.shiro.call.recorder.format.Encoder {
+    *;
+}
+
+-keep class  android.media.* {
     *;
 }
 

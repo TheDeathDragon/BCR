@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name_full">通话录音配置</string>
+    <string name="app_name_full">自动通话录音配置</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">通用</string>

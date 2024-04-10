@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name_full">Call Recorder</string>
+    <string name="app_name_full">Auto Call Recorder</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">सामान्य</string>

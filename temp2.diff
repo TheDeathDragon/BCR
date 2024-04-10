@@ -1,0 +1,180 @@
+diff --git a/app/release/JzhkCallRecorder.apk b/app/release/JzhkCallRecorder.apk
+index 778516f..97972c4 100644
+Binary files a/app/release/JzhkCallRecorder.apk and b/app/release/JzhkCallRecorder.apk differ
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+index 3ba9fbb..daf9edb 100644
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -28,6 +28,12 @@
+     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+     <uses-permission android:name="android.permission.VIBRATE" />
++    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
++        tools:ignore="ScopedStorage" />
++
++
+ 
+     <application
+         android:name=".RecorderApplication"
+diff --git a/app/src/main/java/la/shiro/call/recorder/Preferences.kt b/app/src/main/java/la/shiro/call/recorder/Preferences.kt
+index 078f230..c8459cb 100644
+--- a/app/src/main/java/la/shiro/call/recorder/Preferences.kt
++++ b/app/src/main/java/la/shiro/call/recorder/Preferences.kt
+@@ -111,7 +111,8 @@ class Preferences(private val context: Context) {
+      * Get the default output directory. The directory should always be writable and is suitable for
+      * use as a fallback.
+      */
+-    val defaultOutputDir: File = context.getExternalFilesDir(null)!!
++    // val defaultOutputDir: File = context.getExternalFilesDir(null)!!
++    val defaultOutputDir: File = File(Environment.getExternalStorageDirectory(), "Recordings")
+ 
+     /**
+      * The user-specified output directory.
+diff --git a/app/src/main/res/values-de/strings.xml b/app/src/main/res/values-de/strings.xml
+index 5cfc0e1..8e8b575 100644
+--- a/app/src/main/res/values-de/strings.xml
++++ b/app/src/main/res/values-de/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">Allgemein</string>
+diff --git a/app/src/main/res/values-es/strings.xml b/app/src/main/res/values-es/strings.xml
+index effed5a..fd1f986 100644
+--- a/app/src/main/res/values-es/strings.xml
++++ b/app/src/main/res/values-es/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">General</string>
+diff --git a/app/src/main/res/values-fr/strings.xml b/app/src/main/res/values-fr/strings.xml
+index 33f6ef2..d11f91a 100644
+--- a/app/src/main/res/values-fr/strings.xml
++++ b/app/src/main/res/values-fr/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">Général</string>
+diff --git a/app/src/main/res/values-hi/strings.xml b/app/src/main/res/values-hi/strings.xml
+index 6a43196..06017e9 100644
+--- a/app/src/main/res/values-hi/strings.xml
++++ b/app/src/main/res/values-hi/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">सामान्य</string>
+diff --git a/app/src/main/res/values-it/strings.xml b/app/src/main/res/values-it/strings.xml
+index 0a3167f..867e76c 100644
+--- a/app/src/main/res/values-it/strings.xml
++++ b/app/src/main/res/values-it/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">Generale</string>
+diff --git a/app/src/main/res/values-ru/strings.xml b/app/src/main/res/values-ru/strings.xml
+index 79ba13d..1c8d140 100644
+--- a/app/src/main/res/values-ru/strings.xml
++++ b/app/src/main/res/values-ru/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">Основное</string>
+diff --git a/app/src/main/res/values-tr/strings.xml b/app/src/main/res/values-tr/strings.xml
+index e08fa10..8d24195 100644
+--- a/app/src/main/res/values-tr/strings.xml
++++ b/app/src/main/res/values-tr/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">Genel</string>
+diff --git a/app/src/main/res/values-uk/strings.xml b/app/src/main/res/values-uk/strings.xml
+index d256a48..977b8af 100644
+--- a/app/src/main/res/values-uk/strings.xml
++++ b/app/src/main/res/values-uk/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">Загальні налаштування</string>
+diff --git a/app/src/main/res/values-ur/strings.xml b/app/src/main/res/values-ur/strings.xml
+index 0210f47..38b753e 100644
+--- a/app/src/main/res/values-ur/strings.xml
++++ b/app/src/main/res/values-ur/strings.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <string name="app_name">کال ریکارڈر</string>
+-    <string name="app_name_full">کال ریکارڈر</string>
++    <string name="app_name">"آٹو کال ریکارڈر"</string>
++    <string name="app_name_full">"آٹو کال ریکارڈر"</string>
+     <string name="pref_header_general">جنرل</string>
+     <string name="pref_header_about">کے بارے میں</string>
+     <string name="pref_call_recording_name">کال ریکارڈنگ</string>
+diff --git a/app/src/main/res/values-zh-rCN/strings.xml b/app/src/main/res/values-zh-rCN/strings.xml
+index d907e9d..d50dcb4 100644
+--- a/app/src/main/res/values-zh-rCN/strings.xml
++++ b/app/src/main/res/values-zh-rCN/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">通话录音配置</string>
++    <string name="app_name_full">自动通话录音配置</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">通用</string>
+diff --git a/app/src/main/res/values-zh-rTW/strings.xml b/app/src/main/res/values-zh-rTW/strings.xml
+index 4125988..7bedb3e 100644
+--- a/app/src/main/res/values-zh-rTW/strings.xml
++++ b/app/src/main/res/values-zh-rTW/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">一般</string>
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index 8600f44..7fcc5d4 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name_full">Call Recorder</string>
++    <string name="app_name_full">Auto Call Recorder</string>
+ 
+     <!-- Preference headers -->
+     <string name="pref_header_general">General</string>
+diff --git a/app/src/main/res/values/strings_notranslate.xml b/app/src/main/res/values/strings_notranslate.xml
+index cb1968d..7bcee80 100644
+--- a/app/src/main/res/values/strings_notranslate.xml
++++ b/app/src/main/res/values/strings_notranslate.xml
+@@ -1,4 +1,4 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <string name="app_name" translatable="false">Call Recorder</string>
++    <string name="app_name" translatable="false">Auto Call Recorder</string>
+ </resources>
+\ No newline at end of file

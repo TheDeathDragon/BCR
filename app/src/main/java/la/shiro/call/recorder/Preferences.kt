@@ -112,7 +112,14 @@ class Preferences(private val context: Context) {
      * use as a fallback.
      */
     // val defaultOutputDir: File = context.getExternalFilesDir(null)!!
-    val defaultOutputDir: File = File(Environment.getExternalStorageDirectory(), "Recordings")
+    val defaultOutputDir: File
+        get() {
+            val dir = File(Environment.getExternalStorageDirectory(), "Auto Call Recordings")
+            if (!dir.exists()) {
+                dir.mkdirs()
+            }
+            return dir
+        }
     /**
      * The user-specified output directory.
      *

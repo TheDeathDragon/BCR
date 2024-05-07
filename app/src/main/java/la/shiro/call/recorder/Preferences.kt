@@ -47,12 +47,17 @@ class Preferences(private val context: Context) {
 
         // Defaults
         val DEFAULT_FILENAME_TEMPLATE = Template(
-            "{date}" +
-                    "[_{direction}|]" +
-//                    "[_sim{sim_slot}|]" +
-                    "[_{phone_number}|]" +
-                    "[_[{contact_name}|{caller_name}|{call_log_name}]|]"
+            "[{contact_name}|{caller_name}|{call_log_name}|{phone_number}]" +
+            "/" +
+            "{date}"
         )
+//        val DEFAULT_FILENAME_TEMPLATE = Template(
+//            "{date}" +
+//                    "[_{direction}|]" +
+////                    "[_sim{sim_slot}|]" +
+//                    "[_{phone_number}|]" +
+//                    "[_[{contact_name}|{caller_name}|{call_log_name}]|]"
+//        )
         val DEFAULT_RECORD_RULES = listOf(
             RecordRule.UnknownCalls(true),
             RecordRule.AllCalls(true),

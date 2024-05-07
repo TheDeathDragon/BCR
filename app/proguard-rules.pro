@@ -18,7 +18,7 @@
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
-# -renamesourcefileattribute SourceFile
+-renamesourcefileattribute SourceFile
 
 # Disable obfuscation completely for BCR. As an open source project,
 # shrinking is the only goal of minification.
@@ -30,10 +30,14 @@
     <init>(androidx.documentfile.provider.DocumentFile, android.content.Context, android.net.Uri);
 }
 
-# Keep standalone CLI utilities
--keep class la.shiro.call.recorder.standalone.* {
+-keep class androidx.documentfile.provider.* {
     *;
 }
+
+# Keep standalone CLI utilities
+#-keep class la.shiro.call.recorder.standalone.* {
+#    *;
+#}
 
 -keep class la.shiro.call.recorder.view.* {
     *;

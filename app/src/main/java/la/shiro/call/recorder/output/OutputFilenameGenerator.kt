@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
-import java.time.format.SignStyle
+import java.time.format.TextStyle
 import java.time.temporal.ChronoField
 import java.time.temporal.Temporal
 
@@ -78,8 +78,9 @@ class OutputFilenameGenerator(
             null, "E.164" -> number.toString()
             "digits_only" -> number.format(context, PhoneNumber.Format.DIGITS_ONLY)
             "formatted" -> number.format(context, PhoneNumber.Format.COUNTRY_SPECIFIC)
-                // Don't fail since this isn't the user's fault
+            // Don't fail since this isn't the user's fault
                 ?: number.toString()
+
             else -> {
                 Log.w(TAG, "Unknown phone_number format arg: $arg")
                 null
@@ -110,6 +111,7 @@ class OutputFilenameGenerator(
 
                 return formatter.format(metadata.timestamp)
             }
+
             "direction" -> return metadata.direction?.toString()
             "sim_slot" -> {
                 // Only append SIM slot ID if the device has multiple active SIMs
@@ -117,6 +119,7 @@ class OutputFilenameGenerator(
                     return metadata.simSlot?.toString()
                 }
             }
+
             "phone_number" -> {
                 val joined = metadata.calls.asSequence()
                     .map { it.phoneNumber?.let { number -> formatPhoneNumber(number, arg) } }
@@ -128,6 +131,7 @@ class OutputFilenameGenerator(
                     return joined
                 }
             }
+
             "caller_name" -> {
                 val joined = metadata.calls.asSequence()
                     .map { it.callerName?.trim() }
@@ -139,6 +143,7 @@ class OutputFilenameGenerator(
                     return joined
                 }
             }
+
             "contact_name" -> {
                 val joined = metadata.calls.asSequence()
                     .map { it.contactName?.trim() }
@@ -150,6 +155,7 @@ class OutputFilenameGenerator(
                     return joined
                 }
             }
+
             "call_log_name" -> {
                 val cachedName = metadata.callLogName?.trim()
                 if (!cachedName.isNullOrEmpty()) {
@@ -157,6 +163,7 @@ class OutputFilenameGenerator(
                     return cachedName
                 }
             }
+
             else -> {
                 Log.w(TAG, "Unknown filename template variable: $name")
             }
@@ -247,6 +254,7 @@ class OutputFilenameGenerator(
                             }
                         }
                     }
+
                     Template.VariableRefLocation.Arbitrary -> {
                         Log.d(TAG, "Date might be at an arbitrary location")
                     }
@@ -298,17 +306,31 @@ class OutputFilenameGenerator(
             "call_log_name",
         )
 
-        // Eg. 20220429_180249.123-0400
+        //        // Eg. 20220429_180249.123-0400
+//        private val FORMATTER = DateTimeFormatterBuilder()
+//            .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+//            .appendValue(ChronoField.MONTH_OF_YEAR, 2)
+//            .appendValue(ChronoField.DAY_OF_MONTH, 2)
+//            .appendLiteral('_')
+//            .appendValue(ChronoField.HOUR_OF_DAY, 2)
+//            .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
+//            .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+////            .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
+//            .appendOffset("+HHMMss", "+0000")
+//            .toFormatter()
+        // Eg. 04-Feb-24_02-20-PM
         private val FORMATTER = DateTimeFormatterBuilder()
-            .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-            .appendValue(ChronoField.MONTH_OF_YEAR, 2)
             .appendValue(ChronoField.DAY_OF_MONTH, 2)
+            .appendLiteral('-')
+            .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.SHORT)
+            .appendLiteral('-')
+            .appendValueReduced(ChronoField.YEAR_OF_ERA, 2, 2, 2000)
             .appendLiteral('_')
             .appendValue(ChronoField.HOUR_OF_DAY, 2)
+            .appendLiteral('-')
             .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
-            .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
-//            .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
-            .appendOffset("+HHMMss", "+0000")
+            .appendLiteral('-')
+            .appendText(ChronoField.AMPM_OF_DAY)
             .toFormatter()
 
         private fun splitPath(pathString: String) = pathString
@@ -340,31 +362,50 @@ class OutputFilenameGenerator(
                                     .appendPattern(varRef.arg)
                                     .toFormatter()
                             } catch (e: Exception) {
-                                errors.add(ValidationError(
-                                    ValidationErrorType.INVALID_ARGUMENT, varRef))
+                                errors.add(
+                                    ValidationError(
+                                        ValidationErrorType.INVALID_ARGUMENT, varRef
+                                    )
+                                )
                             }
                         }
                     }
+
                     "phone_number" -> {
                         if (varRef.arg !in arrayOf(null, "E.164", "digits_only", "formatted")) {
-                            errors.add(ValidationError(
-                                ValidationErrorType.INVALID_ARGUMENT, varRef))
+                            errors.add(
+                                ValidationError(
+                                    ValidationErrorType.INVALID_ARGUMENT, varRef
+                                )
+                            )
                         }
                     }
+
                     "sim_slot" -> {
                         if (varRef.arg !in arrayOf(null, "always")) {
-                            errors.add(ValidationError(
-                                ValidationErrorType.INVALID_ARGUMENT, varRef))
+                            errors.add(
+                                ValidationError(
+                                    ValidationErrorType.INVALID_ARGUMENT, varRef
+                                )
+                            )
                         }
                     }
+
                     "direction", "caller_name", "contact_name", "call_log_name" -> {
                         if (varRef.arg != null) {
-                            errors.add(ValidationError(
-                                ValidationErrorType.HAS_ARGUMENT, varRef))
+                            errors.add(
+                                ValidationError(
+                                    ValidationErrorType.HAS_ARGUMENT, varRef
+                                )
+                            )
                         }
                     }
-                    else -> errors.add(ValidationError(
-                        ValidationErrorType.UNKNOWN_VARIABLE, varRef))
+
+                    else -> errors.add(
+                        ValidationError(
+                            ValidationErrorType.UNKNOWN_VARIABLE, varRef
+                        )
+                    )
                 }
             }
 

@@ -24,6 +24,9 @@
     <string name="pref_write_metadata_name">Write metadata file</string>
     <string name="pref_write_metadata_desc">Create a JSON file containing details about the call next to the audio file.</string>
 
+    <string name="pref_record_telecom_apps_name">Record telecom-integrated apps</string>
+    <string name="pref_record_telecom_apps_desc">Record calls from third-party apps that integrate with Android\'s telecom system. Recordings of these calls will likely contain only silence.</string>
+
     <!-- About "preference" -->
     <string name="pref_version_name">Version</string>
 
@@ -68,7 +71,7 @@
     <!-- Filename template dialog -->
     <string name="filename_template_dialog_title">Filename template</string>
     <!-- NOTE: For the "supported_vars" annotation, the content MUST not be empty. Any string can go inside of it as a placeholder. -->
-    <string name="filename_template_dialog_message">Enter a custom template for the output filename. Variables are specified with curly braces (eg. <annotation type="template">{var}</annotation>). Fallbacks are specified with square brackets (eg. <annotation type="template">[{contact_name}|Unknown]</annotation>).  Supported variables: <annotation type="supported_vars">PLACEHOLDER</annotation>. See <annotation type="template_docs">the documentation</annotation> for a complete description of the syntax.</string>
+    <string name="filename_template_dialog_message">Enter a custom template for the output filename. Variables are specified with curly braces (eg. <annotation type="template">{var}</annotation>). Fallbacks are specified with square brackets (eg. <annotation type="template">[{contact_name}|Unknown]</annotation>).\n\nSupported variables: <annotation type="supported_vars">PLACEHOLDER</annotation>. See <annotation type="template_docs">the documentation</annotation> for a complete description of the syntax.</string>
     <string name="filename_template_dialog_warning_subdirectories">Due to Android Storage Access Framework\'s poor performance, using subdirectories (<annotation type="template">/</annotation> character) may cause significant delays when saving the recording on some devices. The delay occurs at the end of the call and should not result in any loss of call audio.</string>
     <string name="filename_template_dialog_error_empty">Template cannot be empty</string>
     <string name="filename_template_dialog_error_unknown_variable">Unknown template variable: <annotation type="template">PLACEHOLDER</annotation></string>
@@ -115,6 +118,7 @@
     <string name="notification_recording_succeeded">Successfully recorded call</string>
     <string name="notification_message_delete_at_end">The recording will be deleted at the end of the call. Tap Restore to keep the recording.</string>
     <string name="notification_internal_android_error">The recording failed in an internal Android component (%s). This device or firmware might not support call recording.</string>
+    <string name="notification_pure_silence_error">The recording was discarded because the audio was completely silent. This device might not support recording calls associated with the \'%s\' app.</string>
     <string name="notification_action_open">Open</string>
     <string name="notification_action_share">Share</string>
     <string name="notification_action_delete">Delete</string>

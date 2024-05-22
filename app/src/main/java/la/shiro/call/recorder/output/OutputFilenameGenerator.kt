@@ -2,6 +2,7 @@ package la.shiro.call.recorder.output
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import la.shiro.call.recorder.Preferences
 import la.shiro.call.recorder.template.Template
 import java.text.ParsePosition
@@ -9,6 +10,7 @@ import java.time.DateTimeException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
 import java.time.format.TextStyle
@@ -36,7 +38,7 @@ class OutputFilenameGenerator(
     private val dateVarLocations = filenameTemplate.findVariableRef(DATE_VAR)?.second
 
     // Timestamps
-    private var formatter = FORMATTER
+    private var formatter = getFormatter(context)
 
     // Redactions
     private val redactions = HashMap<String, String>()
@@ -330,8 +332,50 @@ class OutputFilenameGenerator(
             .appendLiteral('-')
             .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
             .appendLiteral('-')
+            .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+            .appendLiteral('-')
             .appendText(ChronoField.AMPM_OF_DAY)
             .toFormatter()
+
+        private fun Context.isRTL(): Boolean {
+            return resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+        }
+
+        private fun getFormatter(context: Context): DateTimeFormatter {
+            return if (context.isRTL()) {
+                DateTimeFormatterBuilder()
+                    .appendValue(ChronoField.DAY_OF_MONTH, 2)
+                    .appendLiteral('-')
+                    .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.SHORT)
+                    .appendLiteral('-')
+                    .appendValueReduced(ChronoField.YEAR_OF_ERA, 2, 2, 2000)
+                    .appendLiteral('_')
+                    .appendValue(ChronoField.HOUR_OF_DAY, 2)
+                    .appendLiteral('-')
+                    .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
+                    .appendLiteral('-')
+                    .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+                    .appendLiteral('-')
+                    .appendText(ChronoField.AMPM_OF_DAY)
+                    .toFormatter()
+            } else {
+                DateTimeFormatterBuilder()
+                    .appendValueReduced(ChronoField.YEAR_OF_ERA, 2, 2, 2000)
+                    .appendLiteral('-')
+                    .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.SHORT)
+                    .appendLiteral('-')
+                    .appendValue(ChronoField.DAY_OF_MONTH, 2)
+                    .appendLiteral('_')
+                    .appendValue(ChronoField.HOUR_OF_DAY, 2)
+                    .appendLiteral('-')
+                    .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
+                    .appendLiteral('-')
+                    .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+                    .appendLiteral('-')
+                    .appendText(ChronoField.AMPM_OF_DAY)
+                    .toFormatter()
+            }
+        }
 
         private fun splitPath(pathString: String) = pathString
             .splitToSequence('/')

@@ -95,6 +95,8 @@ class RecorderTileService : TileService(), SharedPreferences.OnSharedPreferenceC
             tile.state = Tile.STATE_INACTIVE
         }
 
+        tile.label = getString(R.string.pref_call_recording_name)
+
         tile.updateTile()
     }
 

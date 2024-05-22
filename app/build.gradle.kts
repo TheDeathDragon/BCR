@@ -22,9 +22,10 @@ android {
         applicationId = "la.shiro.call.recorder"
         minSdk = 28
         targetSdk = 34
-        versionCode = 340003
-        versionName = "3.4.3"
+        versionCode = 340004
+        versionName = "3.4.4"
         resourceConfigurations.addAll(listOf(
+            "ar",
             "de",
             "en",
             "es",
@@ -37,6 +38,7 @@ android {
             "ru",
             "sk",
             "tr",
+            "ur",
             "uk",
             "zh-rCN",
             "zh-rTW",

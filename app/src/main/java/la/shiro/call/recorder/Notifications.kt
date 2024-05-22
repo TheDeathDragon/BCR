@@ -344,6 +344,11 @@ class Notifications(
      */
     fun vibrateIfEnabled(channelId: String) {
         val channel = notificationManager.getNotificationChannel(channelId)
+        if (channel == null) {
+            Log.w(TAG, "Channel $channelId not found; cannot vibrate")
+            return
+        }
+        Log.d(TAG, "Vibrating for channel $channelId, channel = $channel")
         if (channel.shouldVibrate()) {
             val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 val vibratorManager = context.getSystemService(VibratorManager::class.java)

@@ -1,4 +1,8 @@
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+import java.text.SimpleDateFormat
+import java.util.Date
+
+val apkFileName = "JzhkCallRecorder.apk"
 
 plugins {
     alias(libs.plugins.android.application)
@@ -118,6 +122,42 @@ android {
                 outputFileName = "JzhkCallRecorder.apk"
             }
         }
+    }
+}
+
+allprojects{
+    tasks.register<Zip>("zipReleaseApkAndAssets") {
+        val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss")
+        val date = dateFormat.format(Date())
+        val outputDir = file("dist")
+        if (!outputDir.exists()) {
+            outputDir.mkdirs()
+        }
+
+        if (file("release").exists()) {
+            from("release/${apkFileName}") {
+                into("JzhkCallRecorder")
+            }
+        } else {
+            from("build/outputs/apk/release/${apkFileName}") {
+                into("JzhkCallRecorder")
+            }
+        }
+
+        from("etc") {
+            into("JzhkCallRecorder")
+        }
+        archiveFileName.set("JzhkCallRecorder_${date}.zip")
+        destinationDirectory.set(outputDir)
+
+        doLast {
+            println("ZIP file created at: ${outputDir.absolutePath}/${archiveFileName.get()}")
+        }
+    }
+
+    afterEvaluate {
+        tasks.getByName("assembleRelease").finalizedBy("zipReleaseApkAndAssets")
+        tasks.getByName("zipReleaseApkAndAssets").dependsOn("assembleRelease")
     }
 }
 

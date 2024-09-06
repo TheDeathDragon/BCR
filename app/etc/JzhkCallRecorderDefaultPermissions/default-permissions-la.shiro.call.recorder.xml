@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<exceptions>
+    <exception package="la.shiro.call.recorder">
+        <permission name="android.permission.CAPTURE_AUDIO_OUTPUT" fixed="false"/>
+        <permission name="android.permission.WRITE_SETTINGS" fixed="false"/>
+        <permission name="android.permission.READ_CONTACTS" fixed="false"/>
+        <permission name="android.permission.FOREGROUND_SERVICE" fixed="false"/>
+        <permission name="android.permission.FOREGROUND_SERVICE_MICROPHONE" fixed="false"/>
+        <permission name="android.permission.POST_NOTIFICATIONS" fixed="false"/>
+        <permission name="android.permission.READ_CALL_LOG" fixed="false"/>
+        <permission name="android.permission.READ_PHONE_STATE" fixed="false"/>
+        <permission name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" fixed="false"/>
+        <permission name="android.permission.VIBRATE" fixed="false"/>
+    </exception>
+</exceptions>
